@@ -22,7 +22,12 @@ namespace PharmaGo.WebApi.Filters
         {
             var _loginManager = GetSessions(context);
             string token = context.HttpContext.Request.Headers["Authorization"];
-            if (String.IsNullOrEmpty(token) || !_loginManager.IsTokenValid(token))
+            if (string.IsNullOrEmpty(token))
+            {
+                context.Result = new JsonResult(new { Message = "Token was not provided" })
+                { StatusCode = 400 };
+            }
+            else if (!_loginManager.IsTokenValid(token))
             {
                 context.Result = new JsonResult(new { Message = "Invalid authorization token" })
                 { StatusCode = 401 };
