@@ -1,11 +1,11 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { cilCart, cilPlus, cilCompass } from '@coreui/icons';
 import { IconSetService } from '@coreui/icons-angular';
 import { ActivatedRoute } from '@angular/router';
 import { Drug } from 'src/app/interfaces/drug';
 import { DrugService } from '../../../services/drug.service';
 import { StorageManager } from '../../../utils/storage-manager';
-import { Router } from '@angular/router'; 
+import { Router } from '@angular/router';
 import { CommonService } from '../../../services/CommonService';
 
 @Component({
@@ -40,33 +40,35 @@ export class DetailComponent implements OnInit {
   }
 
   addToCart(drug: Drug) {
-    if (drug) {
-      this.cart = JSON.parse(this.storageManager.getData('cart'));
-      if (!this.cart) {
-        this.cart = [];
+    if (this.quantity > 0 && this.quantity * drug.price < 10000000) {
+      if (drug) {
+        this.cart = JSON.parse(this.storageManager.getData('cart'));
+        if (!this.cart) {
+          this.cart = [];
+          this.storageManager.saveData('cart', JSON.stringify(this.cart));
+        }
+
+        let exist: boolean = false;
+        for (let item of this.cart) {
+          if (item.code === drug.code && item.id === drug.id) {
+            item.quantity += this.quantity;
+            exist = true;
+            break;
+          }
+        }
+        if (!exist) {
+          drug.quantity = this.quantity;
+          this.cart.push(drug);
+        }
         this.storageManager.saveData('cart', JSON.stringify(this.cart));
       }
-      
-      let exist: boolean = false;
-      for (let item of this.cart) {
-        if (item.code === drug.code && item.id === drug.id){
-          item.quantity += this.quantity;
-          exist = true;
-          break;
-        }
-      }
-      if (!exist){
-        drug.quantity = this.quantity;
-        this.cart.push(drug);
-      }
-      this.storageManager.saveData('cart', JSON.stringify(this.cart));
+      this.updateHeader(this.cart.length);
+      this.router.navigate(['/home/cart']);
     }
-    this.updateHeader(this.cart.length);
-    this.router.navigate(['/home/cart']);
   }
 
-  updateHeader(value: number){
+  updateHeader(value: number) {
     this.commonService.updateHeaderData(value);
-   }
+  }
 
 }
