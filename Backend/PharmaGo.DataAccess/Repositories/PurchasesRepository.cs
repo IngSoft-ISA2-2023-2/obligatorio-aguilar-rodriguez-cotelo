@@ -50,5 +50,10 @@ namespace PharmaGo.DataAccess.Repositories
                 .Include(x => x.details).ThenInclude(d => d.Pharmacy)
                 .FirstOrDefault(expression);
         }
+
+        public override bool ExistsTrackingCode(string trackingCode)
+        {
+            return _context.Set<Purchase>().Any(p => p.TrackingCode == trackingCode);
+        }
     }
 }

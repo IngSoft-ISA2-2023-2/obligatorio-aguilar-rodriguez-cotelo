@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PharmaGo.IDataAccess;
 using System.Linq.Expressions;
+using PharmaGo.Domain.Entities;
 
 
 namespace PharmaGo.DataAccess.Repositories
@@ -65,6 +66,11 @@ namespace PharmaGo.DataAccess.Repositories
         public virtual T GetOneDetailByExpression(Expression<Func<T, bool>> expression)
         {
             return _context.Set<T>().FirstOrDefault(expression);
+        }
+
+        public virtual bool ExistsTrackingCode(string trackingCode)
+        {
+            return _context.Set<Purchase>().Any(p => p.TrackingCode == trackingCode);
         }
     }
 }
