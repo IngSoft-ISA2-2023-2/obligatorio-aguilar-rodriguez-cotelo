@@ -280,6 +280,9 @@ namespace PharmaGo.BusinessLogic
             if (string.IsNullOrEmpty(trackingCode))
                 throw new InvalidResourceException($"Tracking Code is can't be empty");
 
+            if (!_purchasesRepository.ExistsTrackingCode(trackingCode))
+                throw new InvalidResourceException($"Tracking Code doesn't exist");
+            
             return _purchasesRepository.GetOneDetailByExpression(p => p.TrackingCode == trackingCode);
         }
     }

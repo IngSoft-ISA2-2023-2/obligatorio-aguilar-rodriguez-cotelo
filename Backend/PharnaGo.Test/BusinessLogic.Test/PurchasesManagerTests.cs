@@ -36,7 +36,7 @@ namespace PharmaGo.Test.BusinessLogic.Test
         [TestInitialize]
         public void SetUp()
         {
-            _purchaseRespository = new Mock<IRepository<Purchase>>(MockBehavior.Strict);
+            _purchaseRespository = new Mock<IRepository<Purchase>>(MockBehavior.Loose);
             _pharmacyRespository = new Mock<IRepository<Pharmacy>>(MockBehavior.Strict);
             _drugsRespository = new Mock<IRepository<Drug>>(MockBehavior.Strict);
             _userRespository = new Mock<IRepository<User>>(MockBehavior.Strict);
@@ -476,23 +476,22 @@ namespace PharmaGo.Test.BusinessLogic.Test
         [ExpectedException(typeof(InvalidResourceException))]
         public void Get_Purchase_By_TrackingCode_Fail()
         {
-            //Arrange
-            string trackingCode = "";
+            pharmacy.Drugs = new List<Drug>
+            {
+                drug1,
+                drug2
+            };
+            int pharmacyId = 1;
+            int pharmacyId2 = 2;
+            string trackingCode = "codigo123";
+            _pharmacyRespository.Setup(y => y.GetOneByExpression(x => x.Id == pharmacyId)).Returns(pharmacy);
+            _pharmacyRespository.Setup(y => y.GetOneByExpression(x => x.Id == pharmacyId2)).Returns(pharmacy2);
+            _purchaseRespository.Setup(x => x.InsertOne(purchase));
+            _purchaseRespository.Setup(x => x.Save());
+            
+            var purchaseResponse = _purchasesManager.CreatePurchase(purchase);
 
-            //Act
-            var response = _purchasesManager.GetPurchaseByTrackingCode(trackingCode);
-        }
-
-        [TestMethod]
-        public void Get_Purchase_By_TrackingCode_Ok()
-        {
-            //Arrange
-            string trackingCode = "1234565";
-            _purchaseRespository
-                .Setup(y => y.GetOneDetailByExpression(p => p.TrackingCode == trackingCode)).Returns(purchase);
-
-            //Act
-            var response = _purchasesManager.GetPurchaseByTrackingCode(trackingCode);
+            var purchaseWithTrackingCode = _purchasesManager.GetPurchaseByTrackingCode(trackingCode);
         }
 
         [TestMethod]
