@@ -1,3 +1,10 @@
-[![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-718a45dd9cf7e7f842a935f5ebbe5719a5e09af4491e668f4dbf3b35d5cca122.svg)](https://classroom.github.com/online_ide?assignment_repo_id=11798835&assignment_repo_type=AssignmentRepo)
+## Obligatorio ISA2
 
-Toda la documentación de la entrega 2 se encuentra en la carpeta entrega-2 en la rama Main
+### Integrantes:
+- Francisco Aguilar
+- Germán Cotelo
+- Juan Martín Rodriguez
+
+## Entrega 2
+
+Toda la documentación de la entrega 2 se encuentra en la carpeta entrega-2 en la rama main.
