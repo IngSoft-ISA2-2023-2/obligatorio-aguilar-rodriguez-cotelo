@@ -54,6 +54,7 @@ import { CreatePharmacyComponent } from './pages/admin/create-pharmacy/create-ph
 import { EmployeeComponent } from './pages/employee/employee/employee.component';
 import { PurchaseStatusComponent } from './pages/employee/purchase-status/purchase-status.component';
 import { CreateDrugComponent } from './pages/employee/create-drug/create-drug.component';
+import { CreateProductComponent } from './pages/employee/create-product/create-product.component';
 import { DeleteDrugComponent } from './pages/employee/delete-drug/delete-drug.component';
 import { ExportDrugsComponent } from './pages/employee/export-drugs/export-drugs.component';
 
@@ -111,11 +112,13 @@ import { StockRequestOwnerComponent } from './pages/owner/stock-request-owner/st
     StockRequestComponent,
     CreateRequestComponent,
     ExportDrugsComponent,
+    CreateProductComponent,
     // Owner
     OwnerComponent,
     PurchaseByDateComponent,
     InvitationComponent,
     StockRequestOwnerComponent,
+    CreateProductComponent,
     
 
   ],
