@@ -43,7 +43,25 @@ export class ProductService {
     );
   }
 
-  
+  getProductsByUser(): Observable<Product[]> {
+    const url = `${this.url}/user`;
+    return this.http.get<Product[]>(url, {headers: this.getHttpHeaders() })
+      .pipe(
+        tap(),
+        catchError(this.handleError<Product[]>('Get Products By User', []))
+      );
+  }
+
+    /** DELETE Delete Product */
+    deleteProduct(id: number): Observable<any> {
+      const url = `${this.url}/${id}`;
+      return this.http.delete<any>(url, {headers: this.getHttpHeaders() })
+      .pipe(
+        tap(),
+        catchError(this.handleError<any>('Delete Product'))
+      );
+    }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
