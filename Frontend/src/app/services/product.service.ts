@@ -62,6 +62,23 @@ export class ProductService {
       );
     }
 
+    getProductById(id: number): Observable<Product> {
+      const url = `${this.url}/${id}`;
+      return this.http.get<Product>(url).pipe(
+        tap(),
+        catchError(this.handleError<Product>(`Get Product id=${id}`))
+      );
+    }
+
+     /* PUT Update Product */
+    updateProduct(id: number, product: ProductRequest): Observable<Product> {
+      const url = `${this.url}/${id}`;
+      return this.http.put<Product>(url, product, {headers: this.getHttpHeaders() }).pipe(
+        tap(),
+        catchError(this.handleError<Product>('Update Product'))
+      );
+    }
+    
   /**
    * Handle Http operation that failed.
    * Let the app continue.
