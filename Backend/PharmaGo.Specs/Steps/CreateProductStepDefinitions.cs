@@ -1,4 +1,9 @@
-﻿namespace PharmaGo.Specs.Steps;
+﻿using Microsoft.Net.Http.Headers;
+using Newtonsoft.Json;
+using PharmaGo.Domain.Entities;
+using MediaTypeHeaderValue = System.Net.Http.Headers.MediaTypeHeaderValue;
+
+namespace PharmaGo.Specs.Steps;
 
 [Binding]
 public sealed class ProductStepDefinitions
@@ -6,39 +11,66 @@ public sealed class ProductStepDefinitions
     // For additional details on SpecFlow step definitions see https://go.specflow.org/doc-stepdef
 
     private readonly ScenarioContext _scenarioContext;
-    public ProductStepDefinitions(ScenarioContext scenarioContext)
+    private readonly Product _product = new Product();
+    public ProductStepDefinitions(ScenarioContext scenarioContext, Product product)
     {
         _scenarioContext = scenarioContext;
     }
 
     [Given(@"the code is (.*)")]
-    public void GivenTheCodeIs(int p0)
+    public void GivenTheCodeIs(int code)
     {
-        ScenarioContext.StepIsPending();
+        _product.Code = code;
     }
 
     [Given(@"the price is (.*)")]
-    public void GivenThePriceIs(int p0)
+    public void GivenThePriceIs(int price)
     {
-        ScenarioContext.StepIsPending();
+        _product.Price = price;
     }
 
     [Given(@"the name is ""(.*)""")]
-    public void GivenTheNameIs(string shampoo)
+    public void GivenTheNameIs(string name)
     {
-        ScenarioContext.StepIsPending();
+        _product.Name = name;
     }
 
     [Given(@"the description is ""(.*)""")]
-    public void GivenTheDescriptionIs(string p0)
+    public void GivenTheDescriptionIs(string description)
     {
-        ScenarioContext.StepIsPending();
+        _product.Description = description;
     }
 
     [When(@"the ""(.*)"" is created with those values")]
     public void WhenTheIsCreatedWithThoseValues(string product)
     {
-        ScenarioContext.StepIsPending();
+        string requestBody = JsonConvert.SerializeObject(new
+            { Id = _product.Id, Name = _product.Name, Code = _product.Code, Description = _product.Description, Price = _product.Price });
+
+        // set up Http Request Message
+        // ATENCIÓN: Se deberá de modificar el puerto que está en la línea debajo
+        var request = new HttpRequestMessage(HttpMethod.Post, $"http://localhost:5000/api/products")
+        {
+            Content = new StringContent(requestBody)
+            {
+                Headers =
+                {
+                    ContentType = new MediaTypeHeaderValue("application/json")
+                }
+            }
+        };
+        // create an http client
+        var client = new HttpClient();
+        // let's post
+        var response = client.Send(request);
+        try
+        {
+            _scenarioContext.Set(response.StatusCode, "ResponseStatusCode");
+        }
+        finally
+        {
+            // move along, move along
+        }    
     }
 
     [Then(@"I get a ""(.*)"" code")]
