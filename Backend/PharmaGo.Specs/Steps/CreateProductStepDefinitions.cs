@@ -6,7 +6,6 @@ public sealed class ProductStepDefinitions
     // For additional details on SpecFlow step definitions see https://go.specflow.org/doc-stepdef
 
     private readonly ScenarioContext _scenarioContext;
-
     public ProductStepDefinitions(ScenarioContext scenarioContext)
     {
         _scenarioContext = scenarioContext;

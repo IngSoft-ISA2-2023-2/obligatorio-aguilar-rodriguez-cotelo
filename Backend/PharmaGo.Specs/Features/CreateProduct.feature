@@ -11,3 +11,12 @@ Scenario: Create product with valid data
 	And the price is "120"
 	When the "product" is created with those values
 	Then I get a "201" code
+	
+@wrongCreation
+Scenario: Create product with invalid data
+	Given the code is "33"
+	And the name is ""
+	And the description is ""
+	And the price is "f"
+	When the "product" is created with those values
+	Then I get a "400" code

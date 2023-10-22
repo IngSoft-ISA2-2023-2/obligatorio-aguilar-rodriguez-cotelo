@@ -98,7 +98,7 @@ export class UpdateProductComponent implements OnInit {
         let productRequest = new ProductRequest(code, name, description, price, "");
         this.productService.updateProduct(id, productRequest).subscribe((product) => {
             if (product){
-                this.commonService.updateToastData("Success updating invitation", 'success', 'Invitation updated.');
+                this.commonService.updateToastData("Success updating product", 'success', 'Product updated.');
             }
         });
     }
