@@ -4,10 +4,11 @@ namespace PharmaGo.WebApi.Models.In;
 
 public class ProductModel
 {
-    public int Code { get; set; }
+    public string Code { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
-    public int Price { get; set; }
+    public decimal Price { get; set; }
+    public string PharmacyName { get; set; }
 
     public Product ToEntity()
     {
@@ -16,7 +17,8 @@ public class ProductModel
             Code = this.Code,
             Name = this.Name,
             Description = this.Description,
-            Price = this.Price
+            Price = this.Price,
+            Pharmacy = new Pharmacy() { Name = this.PharmacyName }
         };
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Moq;
 using PharmaGo.BusinessLogic;
-using PharmaGo.DataAccess.Migrations;
 using PharmaGo.Domain.Entities;
 using PharmaGo.IBusinessLogic;
 using PharmaGo.IDataAccess;

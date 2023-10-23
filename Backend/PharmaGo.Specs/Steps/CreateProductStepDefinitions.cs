@@ -18,7 +18,7 @@ public sealed class ProductStepDefinitions
     }
 
     [Given(@"the code is (.*)")]
-    public void GivenTheCodeIs(int code)
+    public void GivenTheCodeIs(string code)
     {
         _product.Code = code;
     }
