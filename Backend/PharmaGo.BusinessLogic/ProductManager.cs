@@ -48,13 +48,33 @@ namespace PharmaGo.BusinessLogic
             {
                 throw new InvalidResourceException("The product already exists in that pharmacy.");
             }
-           
-
             
             product.Pharmacy.Id = pharmacyOfProduct.Id;
             _productRepository.InsertOne(product);
             _productRepository.Save();
             return product;
+        }
+
+        public void Delete(int id)
+        {
+            var productToDelete = _productRepository.GetOneByExpression(p => p.Id == id);
+            _productRepository.DeleteOne(productToDelete);
+            _productRepository.Save();
+        }
+
+        public IEnumerable<Product> GetAllByUser(string token)
+        {
+            var guidToken = new Guid(token);
+            Session session = _sessionRepository.GetOneByExpression(s => s.Token == guidToken);
+            var userId = session.UserId;
+            User user = _userRepository.GetOneDetailByExpression(u => u.Id == userId);
+            Pharmacy pharmacyOfProducts = _pharmacyRepository.GetOneByExpression(p => p.Name == user.Pharmacy.Name);
+            if (pharmacyOfProducts == null)
+            {
+                throw new ResourceNotFoundException("The pharmacy of the products does not exist.");
+            }
+
+            return _productRepository.GetAllByExpression(p => p.Pharmacy.Name == pharmacyOfProducts.Name);
         }
     }
 }

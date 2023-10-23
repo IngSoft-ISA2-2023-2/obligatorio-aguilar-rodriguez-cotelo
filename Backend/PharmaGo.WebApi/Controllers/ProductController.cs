@@ -31,5 +31,25 @@ namespace PharmaGo.WebApi.Controllers
             return Ok(productResponse);
         }
         
+        [HttpGet]
+        [Route("[action]")]
+        [AuthorizationFilter(new string[] { nameof(RoleType.Employee) })]
+        public IActionResult User()
+        {
+            string token = HttpContext.Request.Headers["Authorization"];
+            IEnumerable<Product> products = _productManager.GetAllByUser(token);
+            IEnumerable<ProductBasicModel> productToReturn = products.Select(p => new ProductBasicModel(p));
+            return Ok(productToReturn);
+        }
+        
+        [HttpDelete("{id}")]
+        [AuthorizationFilter(new string[] { nameof(RoleType.Employee) })]
+        public IActionResult Delete([FromRoute] int id)
+        {
+            _productManager.Delete(id);
+            return Ok(true);
+        }
+        
+        
     }
 }

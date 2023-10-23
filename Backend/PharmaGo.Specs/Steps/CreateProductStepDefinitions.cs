@@ -1,5 +1,7 @@
-﻿using Microsoft.Net.Http.Headers;
+﻿using System.Net;
+using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
+using NUnit.Framework;
 using PharmaGo.Domain.Entities;
 using MediaTypeHeaderValue = System.Net.Http.Headers.MediaTypeHeaderValue;
 
@@ -78,8 +80,8 @@ public sealed class CreateProductStepDefinitions
     }
 
     [Then(@"I get a ""(.*)"" code")]
-    public void ThenIGetACode(string p0)
+    public void ThenIGetACode(string code)
     {
-        ScenarioContext.StepIsPending();
+        Assert.AreEqual(code, (int)_scenarioContext.Get<HttpStatusCode>("ResponseStatusCode"));
     }
 }
