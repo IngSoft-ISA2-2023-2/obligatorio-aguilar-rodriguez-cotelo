@@ -6,13 +6,14 @@ using MediaTypeHeaderValue = System.Net.Http.Headers.MediaTypeHeaderValue;
 namespace PharmaGo.Specs.Steps;
 
 [Binding]
-public sealed class ProductStepDefinitions
+public sealed class CreateProductStepDefinitions
 {
     // For additional details on SpecFlow step definitions see https://go.specflow.org/doc-stepdef
 
     private readonly ScenarioContext _scenarioContext;
     private readonly Product _product = new Product();
-    public ProductStepDefinitions(ScenarioContext scenarioContext, Product product)
+
+    public CreateProductStepDefinitions(ScenarioContext scenarioContext, Product product)
     {
         _scenarioContext = scenarioContext;
     }
@@ -45,7 +46,10 @@ public sealed class ProductStepDefinitions
     public void WhenTheIsCreatedWithThoseValues(string product)
     {
         string requestBody = JsonConvert.SerializeObject(new
-            { Id = _product.Id, Name = _product.Name, Code = _product.Code, Description = _product.Description, Price = _product.Price });
+        {
+            Id = _product.Id, Name = _product.Name, Code = _product.Code, Description = _product.Description,
+            Price = _product.Price
+        });
 
         // set up Http Request Message
         // ATENCIÓN: Se deberá de modificar el puerto que está en la línea debajo
@@ -70,7 +74,7 @@ public sealed class ProductStepDefinitions
         finally
         {
             // move along, move along
-        }    
+        }
     }
 
     [Then(@"I get a ""(.*)"" code")]
