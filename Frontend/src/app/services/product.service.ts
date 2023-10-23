@@ -43,6 +43,14 @@ export class ProductService {
     );
   }
 
+  getProducts(): Observable<Product[]> {
+    return this.http.get<Product[]>(this.url, {headers: this.getHttpHeaders() })
+      .pipe(
+        tap(),
+        catchError(this.handleError<Product[]>('Get Products', []))
+      );
+  }
+
   getProductsByUser(): Observable<Product[]> {
     const url = `${this.url}/user`;
     return this.http.get<Product[]>(url, {headers: this.getHttpHeaders() })
