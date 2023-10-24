@@ -3,9 +3,8 @@
   [search]="true" [ngStyle]="{ width: '100%' }"> 
 </app-custom-header>
   <c-header-divider></c-header-divider>
-  <c-container>
-    <c-row>
-      <c-col>
+    <c-col xs = "6">
+      <c-row>
         <c-card 
         [cBorder]="{top: {color: 'info', width: 3}}" 
         class="mb-3" 
@@ -33,17 +32,15 @@
           </c-row>
           
         </c-card>
-      </c-col>
-    </c-row>
-
+      </c-row>
+  
     <c-row>
-      <c-col>
         <c-card 
         [cBorder]="{top: {color: 'info', width: 3}}" 
         class="mb-3" 
         *ngFor="let product of products">
           <c-row class="g-0">
-            <c-card-body cCol [md]="8">
+            <c-card-body cCol [md]="4">
               <h4 cCardTitle>{{ product.name }}</h4>
               <h5 class="card-subtitle mb-2 text-muted"> 
                 {{ product.pharmacy.name }}
@@ -52,7 +49,7 @@
                 <b>Price:</b> {{ product.price | currency}}
               </p>
               <div [ngStyle]="{ 'text-align': 'end' }">
-              <button cButton color="primary" [routerLink]="['/home/detailProduct', product.id]">
+              <button cButton color="primary" [routerLink]="['/home/detail-product', product.id]">
                 View Details
                 <svg cIcon name="cil-plus"></svg>
               </button>
@@ -61,8 +58,7 @@
           </c-row>
           
         </c-card>
-      </c-col>
-    </c-row>
-  </c-container>
+      </c-row>
+    </c-col>
   <app-custom-footer class="bottomFooter"></app-custom-footer>
 </c-header>

@@ -78,6 +78,7 @@ export class ProductService {
       );
     }
 
+
      /* PUT Update Product */
     updateProduct(id: number, product: ProductRequest): Observable<Product> {
       const url = `${this.url}/${id}`;
