@@ -62,6 +62,27 @@ namespace PharmaGo.BusinessLogic
             _productRepository.Save();
         }
 
+        public Product Update(int id, Product updatedProduct)
+        {
+            if (updatedProduct == null)
+            {
+                throw new ResourceNotFoundException("The updated product is invalid.");
+            }
+            updatedProduct.ValidOrFail();
+            var productSaved = _productRepository.GetOneByExpression(d => d.Id == id);
+            if (productSaved == null)
+            {
+                throw new ResourceNotFoundException("The product to update does not exist.");
+            }
+            productSaved.Code = updatedProduct.Code;
+            productSaved.Name = updatedProduct.Name;
+            productSaved.Description = updatedProduct.Description;
+            productSaved.Price = updatedProduct.Price;
+            _productRepository.UpdateOne(productSaved);
+            _productRepository.Save();
+            return productSaved;
+        }
+
         public IEnumerable<Product> GetAllByUser(string token)
         {
             var guidToken = new Guid(token);
