@@ -82,6 +82,7 @@ import { StockRequestOwnerComponent } from './pages/owner/stock-request-owner/st
 
 import { ListProductsComponent } from './pages/employee/list-products/list-products.component';
 import { UpdateProductComponent } from './pages/employee/update-product/update-product.component';
+import { DetailProductComponent } from './pages/home/detail-product/detail-product.component';
 
 @NgModule({
   declarations: [
@@ -128,6 +129,7 @@ import { UpdateProductComponent } from './pages/employee/update-product/update-p
 
     ListProductsComponent,
      UpdateProductComponent,
+     DetailProductComponent,
     
 
   ],
