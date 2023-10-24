@@ -5,6 +5,6 @@
 - Germán Cotelo
 - Juan Martín Rodriguez
 
-## Entrega 2
+## Entrega 3
 
-Toda la documentación de la entrega 2 se encuentra en la carpeta entrega-2 en la rama main.
+Toda la documentación de la entrega 3 se encuentra en la carpeta entrega-3 en la rama main.
