@@ -12,8 +12,8 @@ using PharmaGo.DataAccess;
 namespace PharmaGo.DataAccess.Migrations
 {
     [DbContext(typeof(PharmacyGoDbContext))]
-    [Migration("20220917232725_CheckSession")]
-    partial class CheckSession
+    [Migration("20231023152117_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -33,14 +33,12 @@ namespace PharmaGo.DataAccess.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Code")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Deleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("PharmacyId")
@@ -49,7 +47,7 @@ namespace PharmaGo.DataAccess.Migrations
                     b.Property<bool>("Prescription")
                         .HasColumnType("bit");
 
-                    b.Property<int>("PresentationId")
+                    b.Property<int?>("PresentationId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Price")
@@ -63,10 +61,9 @@ namespace PharmaGo.DataAccess.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Symptom")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UnitMeasureId")
+                    b.Property<int?>("UnitMeasureId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -91,18 +88,19 @@ namespace PharmaGo.DataAccess.Migrations
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("PharmacyId")
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("PharmacyId")
                         .HasColumnType("int");
 
-                    b.Property<int>("RoleId")
+                    b.Property<int?>("RoleId")
                         .HasColumnType("int");
 
                     b.Property<string>("UserCode")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -123,11 +121,9 @@ namespace PharmaGo.DataAccess.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Address")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -147,12 +143,42 @@ namespace PharmaGo.DataAccess.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Presentations");
+                });
+
+            modelBuilder.Entity("PharmaGo.Domain.Entities.Product", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("PharmacyId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Price")
+                        .HasPrecision(14, 2)
+                        .HasColumnType("decimal(14,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PharmacyId");
+
+                    b.ToTable("Product");
                 });
 
             modelBuilder.Entity("PharmaGo.Domain.Entities.Purchase", b =>
@@ -164,11 +190,7 @@ namespace PharmaGo.DataAccess.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("BuyerEmail")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PharmacyId")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("PurchaseDate")
                         .HasColumnType("datetime2");
@@ -177,9 +199,10 @@ namespace PharmaGo.DataAccess.Migrations
                         .HasPrecision(14, 2)
                         .HasColumnType("decimal(14,2)");
 
-                    b.HasKey("Id");
+                    b.Property<string>("TrackingCode")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("PharmacyId");
+                    b.HasKey("Id");
 
                     b.ToTable("Purchases");
                 });
@@ -192,7 +215,10 @@ namespace PharmaGo.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("DrugId")
+                    b.Property<int?>("DrugId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PharmacyId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Price")
@@ -205,9 +231,14 @@ namespace PharmaGo.DataAccess.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("DrugId");
+
+                    b.HasIndex("PharmacyId");
 
                     b.HasIndex("PurchaseId");
 
@@ -223,7 +254,6 @@ namespace PharmaGo.DataAccess.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -247,9 +277,6 @@ namespace PharmaGo.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
                     b.ToTable("Sessions");
                 });
 
@@ -261,7 +288,7 @@ namespace PharmaGo.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("EmployeeId")
+                    b.Property<int?>("EmployeeId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("RequestDate")
@@ -285,7 +312,7 @@ namespace PharmaGo.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("DrugId")
+                    b.Property<int?>("DrugId")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
@@ -315,7 +342,6 @@ namespace PharmaGo.DataAccess.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -346,15 +372,10 @@ namespace PharmaGo.DataAccess.Migrations
                     b.Property<DateTime?>("RegistrationDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("RoleId")
+                    b.Property<int?>("RoleId")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("UserName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -368,21 +389,19 @@ namespace PharmaGo.DataAccess.Migrations
 
             modelBuilder.Entity("PharmaGo.Domain.Entities.Drug", b =>
                 {
-                    b.HasOne("PharmaGo.Domain.Entities.Pharmacy", null)
+                    b.HasOne("PharmaGo.Domain.Entities.Pharmacy", "Pharmacy")
                         .WithMany("Drugs")
                         .HasForeignKey("PharmacyId");
 
                     b.HasOne("PharmaGo.Domain.Entities.Presentation", "Presentation")
                         .WithMany()
-                        .HasForeignKey("PresentationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PresentationId");
 
                     b.HasOne("PharmaGo.Domain.Entities.UnitMeasure", "UnitMeasure")
                         .WithMany()
-                        .HasForeignKey("UnitMeasureId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UnitMeasureId");
+
+                    b.Navigation("Pharmacy");
 
                     b.Navigation("Presentation");
 
@@ -393,28 +412,22 @@ namespace PharmaGo.DataAccess.Migrations
                 {
                     b.HasOne("PharmaGo.Domain.Entities.Pharmacy", "Pharmacy")
                         .WithMany()
-                        .HasForeignKey("PharmacyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PharmacyId");
 
                     b.HasOne("PharmaGo.Domain.Entities.Role", "Role")
                         .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("RoleId");
 
                     b.Navigation("Pharmacy");
 
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("PharmaGo.Domain.Entities.Purchase", b =>
+            modelBuilder.Entity("PharmaGo.Domain.Entities.Product", b =>
                 {
                     b.HasOne("PharmaGo.Domain.Entities.Pharmacy", "Pharmacy")
                         .WithMany()
-                        .HasForeignKey("PharmacyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PharmacyId");
 
                     b.Navigation("Pharmacy");
                 });
@@ -423,33 +436,26 @@ namespace PharmaGo.DataAccess.Migrations
                 {
                     b.HasOne("PharmaGo.Domain.Entities.Drug", "Drug")
                         .WithMany()
-                        .HasForeignKey("DrugId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DrugId");
+
+                    b.HasOne("PharmaGo.Domain.Entities.Pharmacy", "Pharmacy")
+                        .WithMany()
+                        .HasForeignKey("PharmacyId");
 
                     b.HasOne("PharmaGo.Domain.Entities.Purchase", null)
                         .WithMany("details")
                         .HasForeignKey("PurchaseId");
 
                     b.Navigation("Drug");
-                });
 
-            modelBuilder.Entity("PharmaGo.Domain.Entities.Session", b =>
-                {
-                    b.HasOne("PharmaGo.Domain.Entities.User", null)
-                        .WithOne("Session")
-                        .HasForeignKey("PharmaGo.Domain.Entities.Session", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Pharmacy");
                 });
 
             modelBuilder.Entity("PharmaGo.Domain.Entities.StockRequest", b =>
                 {
                     b.HasOne("PharmaGo.Domain.Entities.User", "Employee")
                         .WithMany()
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("EmployeeId");
 
                     b.Navigation("Employee");
                 });
@@ -458,9 +464,7 @@ namespace PharmaGo.DataAccess.Migrations
                 {
                     b.HasOne("PharmaGo.Domain.Entities.Drug", "Drug")
                         .WithMany()
-                        .HasForeignKey("DrugId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DrugId");
 
                     b.HasOne("PharmaGo.Domain.Entities.StockRequest", null)
                         .WithMany("Details")
@@ -477,9 +481,7 @@ namespace PharmaGo.DataAccess.Migrations
 
                     b.HasOne("PharmaGo.Domain.Entities.Role", "Role")
                         .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("RoleId");
 
                     b.Navigation("Pharmacy");
 
@@ -501,12 +503,6 @@ namespace PharmaGo.DataAccess.Migrations
             modelBuilder.Entity("PharmaGo.Domain.Entities.StockRequest", b =>
                 {
                     b.Navigation("Details");
-                });
-
-            modelBuilder.Entity("PharmaGo.Domain.Entities.User", b =>
-                {
-                    b.Navigation("Session")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

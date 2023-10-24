@@ -15,8 +15,8 @@ namespace PharmaGo.DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -29,39 +29,12 @@ namespace PharmaGo.DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Deleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Presentations", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Roles",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Roles", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UnitMeasures",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Deleted = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UnitMeasures", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -72,18 +45,75 @@ namespace PharmaGo.DataAccess.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PurchaseDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     TotalAmount = table.Column<decimal>(type: "decimal(14,2)", precision: 14, scale: 2, nullable: false),
-                    PharmacyId = table.Column<int>(type: "int", nullable: false),
-                    BuyerEmail = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    BuyerEmail = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TrackingCode = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Purchases", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Roles",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Roles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Sessions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    Token = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Sessions", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UnitMeasures",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Deleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UnitMeasures", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Product",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Price = table.Column<decimal>(type: "decimal(14,2)", precision: 14, scale: 2, nullable: false),
+                    PharmacyId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Product", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Purchases_Pharmacys_PharmacyId",
+                        name: "FK_Product_Pharmacys_PharmacyId",
                         column: x => x.PharmacyId,
                         principalTable: "Pharmacys",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -92,10 +122,12 @@ namespace PharmaGo.DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    PharmacyId = table.Column<int>(type: "int", nullable: false),
-                    RoleId = table.Column<int>(type: "int", nullable: false)
+                    PharmacyId = table.Column<int>(type: "int", nullable: true),
+                    RoleId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -104,14 +136,12 @@ namespace PharmaGo.DataAccess.Migrations
                         name: "FK_Invitations_Pharmacys_PharmacyId",
                         column: x => x.PharmacyId,
                         principalTable: "Pharmacys",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Invitations_Roles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "Roles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -120,13 +150,12 @@ namespace PharmaGo.DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RegistrationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UserCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RoleId = table.Column<int>(type: "int", nullable: false),
+                    RoleId = table.Column<int>(type: "int", nullable: true),
                     PharmacyId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -141,8 +170,7 @@ namespace PharmaGo.DataAccess.Migrations
                         name: "FK_Users_Roles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "Roles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -151,16 +179,16 @@ namespace PharmaGo.DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Symptom = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Symptom = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(14,2)", precision: 14, scale: 2, nullable: false),
                     Stock = table.Column<int>(type: "int", nullable: false),
                     Prescription = table.Column<bool>(type: "bit", nullable: false),
                     Deleted = table.Column<bool>(type: "bit", nullable: false),
-                    UnitMeasureId = table.Column<int>(type: "int", nullable: false),
-                    PresentationId = table.Column<int>(type: "int", nullable: false),
+                    UnitMeasureId = table.Column<int>(type: "int", nullable: true),
+                    PresentationId = table.Column<int>(type: "int", nullable: true),
                     PharmacyId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -175,14 +203,12 @@ namespace PharmaGo.DataAccess.Migrations
                         name: "FK_Drugs_Presentations_PresentationId",
                         column: x => x.PresentationId,
                         principalTable: "Presentations",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Drugs_UnitMeasures_UnitMeasureId",
                         column: x => x.UnitMeasureId,
                         principalTable: "UnitMeasures",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -193,7 +219,7 @@ namespace PharmaGo.DataAccess.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Status = table.Column<int>(type: "int", nullable: false),
                     RequestDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EmployeeId = table.Column<int>(type: "int", nullable: false)
+                    EmployeeId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -202,8 +228,7 @@ namespace PharmaGo.DataAccess.Migrations
                         name: "FK_StockRequests_Users_EmployeeId",
                         column: x => x.EmployeeId,
                         principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -212,9 +237,11 @@ namespace PharmaGo.DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    DrugId = table.Column<int>(type: "int", nullable: false),
+                    DrugId = table.Column<int>(type: "int", nullable: true),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(14,2)", precision: 14, scale: 2, nullable: false),
+                    PharmacyId = table.Column<int>(type: "int", nullable: true),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PurchaseId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -224,8 +251,12 @@ namespace PharmaGo.DataAccess.Migrations
                         name: "FK_PurchaseDetails_Drugs_DrugId",
                         column: x => x.DrugId,
                         principalTable: "Drugs",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_PurchaseDetails_Pharmacys_PharmacyId",
+                        column: x => x.PharmacyId,
+                        principalTable: "Pharmacys",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_PurchaseDetails_Purchases_PurchaseId",
                         column: x => x.PurchaseId,
@@ -239,7 +270,7 @@ namespace PharmaGo.DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    DrugId = table.Column<int>(type: "int", nullable: false),
+                    DrugId = table.Column<int>(type: "int", nullable: true),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     StockRequestId = table.Column<int>(type: "int", nullable: true)
                 },
@@ -250,8 +281,7 @@ namespace PharmaGo.DataAccess.Migrations
                         name: "FK_StockRequestDetails_Drugs_DrugId",
                         column: x => x.DrugId,
                         principalTable: "Drugs",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_StockRequestDetails_StockRequests_StockRequestId",
                         column: x => x.StockRequestId,
@@ -285,19 +315,24 @@ namespace PharmaGo.DataAccess.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Product_PharmacyId",
+                table: "Product",
+                column: "PharmacyId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PurchaseDetails_DrugId",
                 table: "PurchaseDetails",
                 column: "DrugId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PurchaseDetails_PharmacyId",
+                table: "PurchaseDetails",
+                column: "PharmacyId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PurchaseDetails_PurchaseId",
                 table: "PurchaseDetails",
                 column: "PurchaseId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Purchases_PharmacyId",
-                table: "Purchases",
-                column: "PharmacyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_StockRequestDetails_DrugId",
@@ -331,7 +366,13 @@ namespace PharmaGo.DataAccess.Migrations
                 name: "Invitations");
 
             migrationBuilder.DropTable(
+                name: "Product");
+
+            migrationBuilder.DropTable(
                 name: "PurchaseDetails");
+
+            migrationBuilder.DropTable(
+                name: "Sessions");
 
             migrationBuilder.DropTable(
                 name: "StockRequestDetails");

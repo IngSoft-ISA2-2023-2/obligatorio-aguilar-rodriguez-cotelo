@@ -12,8 +12,8 @@ using PharmaGo.DataAccess;
 namespace PharmaGo.DataAccess.Migrations
 {
     [DbContext(typeof(PharmacyGoDbContext))]
-    [Migration("20221010173819_PurchaseV2")]
-    partial class PurchaseV2
+    [Migration("20231023152403_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -143,12 +143,42 @@ namespace PharmaGo.DataAccess.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Presentations");
+                });
+
+            modelBuilder.Entity("PharmaGo.Domain.Entities.Product", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("PharmacyId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Price")
+                        .HasPrecision(14, 2)
+                        .HasColumnType("decimal(14,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PharmacyId");
+
+                    b.ToTable("Product");
                 });
 
             modelBuilder.Entity("PharmaGo.Domain.Entities.Purchase", b =>
@@ -312,7 +342,6 @@ namespace PharmaGo.DataAccess.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -392,6 +421,15 @@ namespace PharmaGo.DataAccess.Migrations
                     b.Navigation("Pharmacy");
 
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("PharmaGo.Domain.Entities.Product", b =>
+                {
+                    b.HasOne("PharmaGo.Domain.Entities.Pharmacy", "Pharmacy")
+                        .WithMany()
+                        .HasForeignKey("PharmacyId");
+
+                    b.Navigation("Pharmacy");
                 });
 
             modelBuilder.Entity("PharmaGo.Domain.Entities.PurchaseDetail", b =>
