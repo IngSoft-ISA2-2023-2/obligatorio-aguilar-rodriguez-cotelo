@@ -21,6 +21,22 @@ namespace PharmaGo.WebApi.Controllers
             _productManager = manager;
         }
 
+        [HttpGet]
+        public IActionResult GetAll([FromQuery] ProductSearchCriteria productSearchCriteria)
+        {
+            IEnumerable<Product> products = _productManager.GetAll(productSearchCriteria);
+            IEnumerable<ProductBasicModel> productBasicModels = products.Select(d => new ProductBasicModel(d));
+            return Ok(productBasicModels);
+        }
+        
+        [HttpGet("{id}")]
+
+        public IActionResult GetById([FromRoute] int id)
+        {
+            Product product = _productManager.GetById(id);
+            return Ok(new ProductDetailModel(product));
+        }
+        
         [HttpPost]
         [AuthorizationFilter(new string[] { nameof(RoleType.Employee) })]
         public IActionResult Create([FromBody] ProductModel productModel)

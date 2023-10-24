@@ -4,6 +4,7 @@ export interface Product {
     name: string;
     description: string;
     price: number;
+    quantity?: number | undefined;
     pharmacy: {
       id: number;
       name: string;  
@@ -16,6 +17,7 @@ export interface Product {
     description: string;
     price: number;
     pharmacyName: string = "";
+    quantity?: number | undefined;
 
     constructor(code: string, name: string, description: string,  price: number, 
        pharmacyName: string){
