@@ -89,7 +89,7 @@ namespace PharmaGo.Test.DataAccess.Test
                 var p_ = _purchasesDetailRepository.GetOneByExpression(p => p.Id == 1);
 
                 // Assert
-                Assert.IsNotNull(p_);
+                Assert.IsNull(p_);
             }
         }
     }

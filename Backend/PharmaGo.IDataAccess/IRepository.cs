@@ -14,5 +14,6 @@ namespace PharmaGo.IDataAccess
         bool Exists(T elem);
         IEnumerable<T> GetAllBasicByExpression(Expression<Func<T, bool>> expression);
         T GetOneDetailByExpression(Expression<Func<T, bool>> expression);
+        bool ExistsTrackingCode(string trackingCode);
     }
 }

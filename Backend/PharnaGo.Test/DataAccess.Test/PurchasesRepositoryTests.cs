@@ -209,5 +209,25 @@ namespace PharmaGo.Test.DataAccess.Test
                 Assert.IsNotNull(p_);
             }
         }
+
+        [TestMethod]
+        public void Exists_Purchase_With_Tracking_Code()
+        {
+            var purchaseList = new List<Purchase>();
+            string TRACKING_CODE =  "f0c4ca1b-d7a8-4cf7-8eed-b6cfdce557cd";
+            purchase.TrackingCode = TRACKING_CODE;
+            purchaseList.Add(purchase);
+
+            using (var context = new PharmacyGoDbContext(options))
+            {
+                _purchasesRepository = new PurchasesRepository(context);
+                _purchasesRepository.InsertOne(purchase);
+                _purchasesRepository.Save();
+
+                bool exists = _purchasesRepository.ExistsTrackingCode(TRACKING_CODE);
+                Assert.IsTrue(exists);
+            }
+        }
+        
     }
 }
