@@ -11,7 +11,8 @@ namespace PharmaGo.Domain.Entities
         public string Address { get; set; }
         public ICollection<User> Users { get; set; }
         public ICollection<Drug> Drugs { get; set; }
-
+        public ICollection<Product> Products { get; set; }
+        
         public void ValidOrFail()
         {
             if (string.IsNullOrEmpty(Name) || Name.Length >= 50 || string.IsNullOrEmpty(Address)
