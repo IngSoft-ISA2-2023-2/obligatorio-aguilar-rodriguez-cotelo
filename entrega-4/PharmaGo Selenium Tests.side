@@ -640,6 +640,138 @@
       "targets": [],
       "value": "30000"
     }]
+  }, {
+    "id": "8ec372de-4003-489c-a9e1-09246f3678cc",
+    "name": "Wrong Track Code",
+    "commands": [{
+      "id": "809d22c9-92f0-4206-8a20-972f5ce64a76",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:4200/home",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "869ec754-3991-4b54-abbe-b36a87201ee9",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1728x842",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "b80d56a3-e64e-4a31-83fd-528a5d275f5e",
+      "comment": "",
+      "command": "click",
+      "target": "css=.nav-item > .nav-link",
+      "targets": [
+        ["css=.nav-item > .nav-link", "css:finder"],
+        ["xpath=//a[contains(@href, '/home/tracking')]", "xpath:href"],
+        ["xpath=//c-nav-item[2]/a", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "563f4899-0fa1-4e51-9ab2-0447f86f431f",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "css=.nav-item > .nav-link",
+      "targets": [
+        ["css=.nav-item > .nav-link", "css:finder"],
+        ["xpath=//a[contains(@href, '/home/tracking')]", "xpath:href"],
+        ["xpath=//c-nav-item[2]/a", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "356374ff-2b10-4b66-92d2-68e2a72e821e",
+      "comment": "",
+      "command": "click",
+      "target": "id=CodeInput",
+      "targets": [
+        ["id=CodeInput", "id"],
+        ["css=#CodeInput", "css:finder"],
+        ["xpath=//input[@id='CodeInput']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "43865db0-f53e-4572-b6e7-cee70824065c",
+      "comment": "",
+      "command": "type",
+      "target": "id=CodeInput",
+      "targets": [
+        ["id=CodeInput", "id"],
+        ["css=#CodeInput", "css:finder"],
+        ["xpath=//input[@id='CodeInput']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "test"
+    }, {
+      "id": "aa265519-8498-4919-8249-1fa6bae86c5b",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn",
+      "targets": [
+        ["css=.btn", "css:finder"],
+        ["xpath=//button[@type='button']", "xpath:attributes"],
+        ["xpath=//div/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Track your purchase ')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "4b53fd17-827c-4e7b-a151-ea58a55d8ec6",
+      "comment": "",
+      "command": "assertText",
+      "target": "xpath=/html/body/app-root/app-tracking/c-header/app-custom-header/app-custom-toast/c-toast/div/c-toast-body/span",
+      "targets": [],
+      "value": "Error Get Purchase By Tracking Code code=test failed: Tracking Code doesn't exist"
+    }]
+  }, {
+    "id": "96af3595-2736-42d6-8307-93d098592822",
+    "name": "Wrong Inputs on Product Amount",
+    "commands": [{
+      "id": "fd68e9ff-118f-4a30-b9d8-6fb29dbe273c",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:4200/home",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "561297a5-7310-4743-bfe3-595fa4971d60",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1728x842",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "e58441eb-c5c8-49b1-8199-98d74cfcf486",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn-primary",
+      "targets": [
+        ["css=.btn-primary", "css:finder"],
+        ["xpath=(//button[@type='button'])[2]", "xpath:attributes"],
+        ["xpath=//div/button", "xpath:position"],
+        ["xpath=//button[contains(.,'View Details ')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "f2506364-e256-4095-8900-cdaa0bd47b61",
+      "comment": "",
+      "command": "type",
+      "target": "id=quantityInput",
+      "targets": [
+        ["id=quantityInput", "id"],
+        ["css=#quantityInput", "css:finder"],
+        ["xpath=//input[@id='quantityInput']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "-e"
+    }, {
+      "id": "4645ae46-e592-497e-9638-77e8ae008cc7",
+      "comment": "",
+      "command": "assertText",
+      "target": "xpath=//*[@id=\"quantityInput\"]",
+      "targets": [],
+      "value": ""
+    }]
   }],
   "suites": [{
     "id": "01a6194f-474d-438c-8ad1-16985fd00d81",
