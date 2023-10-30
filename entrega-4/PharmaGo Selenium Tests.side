@@ -127,7 +127,7 @@
         ["xpath=//input[@type='text']", "xpath:attributes"],
         ["xpath=//input", "xpath:position"]
       ],
-      "value": "12345"
+      "value": "11111"
     }, {
       "id": "7a3a2e6e-c737-4b90-b8fd-f7f66ca3a887",
       "comment": "",
@@ -212,7 +212,7 @@
       "command": "assertText",
       "target": "xpath=/html/body/app-root/app-create-product/app-user-header/app-custom-toast/c-toast/div/c-toast-body/span",
       "targets": [],
-      "value": "Product created. Success creating \"12345 - Product Test\""
+      "value": "Product created. Success creating \"11111 - Product Test\""
     }, {
       "id": "aa5d0ce8-0ce5-44f0-98e2-59f7b2ae22f5",
       "comment": "",
@@ -289,7 +289,7 @@
       "command": "type",
       "target": "xpath=/html/body/app-root/app-update-product/div/c-container/c-row/c-col/c-card/c-card-body/form/c-input-group[1]/input",
       "targets": [],
-      "value": "12345"
+      "value": "11111"
     }, {
       "id": "90a5e4c1-e7dd-4c71-b1d4-b445e87abec4",
       "comment": "",
@@ -346,7 +346,7 @@
       "id": "04f1bf1f-0696-494d-9bbf-8c65ffe5fa84",
       "comment": "",
       "command": "click",
-      "target": "xpath=/html/body/app-root/app-delete-product/c-container/c-row/c-col/c-row/div/table/tbody/tr/td[5]/button",
+      "target": "xpath=/html/body/app-root/app-delete-product/c-container/c-row/c-col/c-row/div/table/tbody/tr[2]/td[5]/button",
       "targets": [
         ["css=.btn-\\'danger", "css:finder"],
         ["xpath=(//button[@type='button'])[4]", "xpath:attributes"],
@@ -367,7 +367,7 @@
       "command": "assertText",
       "target": "xpath=/html/body/app-root/app-delete-product/app-user-header/app-custom-toast/c-toast/div/c-toast-body/span",
       "targets": [],
-      "value": "Product deleted. Success deleting product \"12345 - Product Name Change\""
+      "value": "Product deleted. Success deleting product \"11111 - Product Test\""
     }]
   }, {
     "id": "d47d09d4-2c41-4f33-847d-b164c29f1b55",
