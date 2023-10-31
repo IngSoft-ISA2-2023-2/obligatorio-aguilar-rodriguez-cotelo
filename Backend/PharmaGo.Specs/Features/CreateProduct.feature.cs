@@ -113,7 +113,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.And("the description is \"Lo deja suavecito\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 11
- testRunner.And("the price is 120", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("the price is \"120\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 12
  testRunner.When("the \"product\" is created with those values", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");

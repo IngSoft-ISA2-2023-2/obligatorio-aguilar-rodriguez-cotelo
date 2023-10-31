@@ -44,7 +44,7 @@ namespace PharmaGo.BusinessLogic
             if (string.IsNullOrEmpty(purchase.BuyerEmail) || !rgEmail.IsMatch(purchase.BuyerEmail))
                 throw new InvalidResourceException("Invalid Email");
 
-            if ((purchase.details == null || purchase.details.Count == 0))
+            if ((purchase.details == null || purchase.details.Count == 0) && (purchase.ProductDetails == null || purchase.ProductDetails.Count == 0))
                 throw new InvalidResourceException("The list of items can't be empty");
 
             if (purchase.PurchaseDate == DateTime.MinValue)
@@ -74,6 +74,31 @@ namespace PharmaGo.BusinessLogic
                 detail.Price = drug.Price;
                 detail.Drug = drug;
                 detail.Status = PENDING;
+            }
+
+            foreach (var productDetail in purchase.ProductDetails)
+            {
+                int pharmacyId = productDetail.Pharmacy.Id;
+                if (pharmacyId <= 0)
+                    throw new ResourceNotFoundException($"Pharmacy Id is a mandatory field");
+
+                var pharmacy = _pharmacysRepository.GetOneByExpression(x => x.Id == pharmacyId);
+                if (pharmacy is null)
+                    throw new ResourceNotFoundException($"Pharmacy {productDetail.Pharmacy.Id} not found");
+
+                if (productDetail.Quantity <= 0)
+                    throw new InvalidResourceException("The Quantity is a mandatory field");
+
+                string productCode = productDetail.Product.Code;
+                var product = pharmacy.Products.FirstOrDefault(x => x.Code == productCode);
+                if (product is null)
+                    throw new ResourceNotFoundException($"Product {productCode} not found in Pharmacy {pharmacy.Name}");
+
+                productDetail.Pharmacy = pharmacy;
+                total = total + (product.Price * productDetail.Quantity);
+                productDetail.Price = product.Price;
+                productDetail.Product = product;
+                productDetail.Status = PENDING;
             }
             purchase.TotalAmount = total;
             purchase.TrackingCode = generateTrackingCode();
